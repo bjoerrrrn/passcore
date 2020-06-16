@@ -1,5 +1,5 @@
-ARG DOTNET_VERSION=3.1.301
-FROM mcr.microsoft.com/dotnet/core/sdk:$DOTNET_VERSION-alpine3.12 AS build
+ARG DOTNET_VERSION=3.1
+FROM mcr.microsoft.com/dotnet/core/sdk:$DOTNET_VERSION-alpine AS build
 
 # Disable the invariant mode (set in base image)
 RUN apk add --no-cache \
@@ -14,7 +14,7 @@ COPY . .
 RUN dotnet restore
 RUN dotnet publish -c Release -o /publish /p:PASSCORE_PROVIDER=LDAP
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:$DOTNET_VERSION-alpine3.12 AS release
+FROM mcr.microsoft.com/dotnet/core/aspnet:$DOTNET_VERSION-alpine AS release
 
 WORKDIR /app
 
